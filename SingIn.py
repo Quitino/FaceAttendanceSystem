@@ -4,10 +4,11 @@ import cv2
 import os
 import datetime
 import time
+from ft2 import put_chinese_text
 
 print("欢迎使用人脸签到系统")
 video_capture = cv2.VideoCapture(1)# 摄像头
-print"摄像头读取成功"
+print"摄像头读取完毕"
 path ="face_data"# 在同级目录下的face_data文件中放需要被识别出的人物图
 total_image=[]
 total_image_name=[]
@@ -112,7 +113,7 @@ while True:
   #for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
       # 判断面部是否与已知人脸相匹配。
       for i,v in enumerate(total_face_encoding):
-          match = face_recognition.compare_faces([v], face_encoding,tolerance=0.5)
+          match = face_recognition.compare_faces([v], face_encoding,tolerance=0.5)#阈值
           if match[0]:
               name = total_image_name[i]
               break
@@ -141,13 +142,37 @@ while True:
       now_time = datetime.datetime.now()
       time_str = datetime.datetime.strftime(now_time,'%Y-%m-%d %H:%M:%S')
       with open('sing_in.txt', 'a') as f:#签到信息保存至sing_in.txt中
-           f.write('  %s  已在  %s  完成签到\n'%(name,time_str))
+           f.write('  %s  已在  %s  完成签到\n'%(name,time_str)) 
       cv2.imwrite("sing_in_image/%s/%s%s.jpg"%(OpenTime,name,time_str), frame)
       name_of_sing_in.append(name)
       time_of_sing_in.append(time_str)
       name_of_unsing_in.remove(name)
-      print "%s已签到，按回车继续" %name
-      raw_input()
+      # 框出人脸
+      (top, right, bottom, left)=face_locations[0]
+      left=left
+      right=right
+      top=top
+      bottom=bottom
+      cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
+      # 画出一个带名字的标签，放在框下
+      cv2.rectangle(frame, (left, bottom + 35), (right, bottom), (0, 0, 255), cv2.FILLED)
+      
+      line = name
+ 
+      color = (255, 255, 255)
+      pos = (left + 40, bottom+5)
+      text_size = 25
+ 
+      # ft = put_chinese_text('wqy-zenhei.ttc')
+      ft = put_chinese_text('/home/nvidia/.local/share/fonts/KaiTi_GB2312.ttf')
+      frame = ft.draw_text(frame, pos, line, text_size, color)
+
+
+      cv2.namedWindow('%s'%name)
+      cv2.imshow('%s'%name,frame)
+      print "%s已签到，图像界面中按“Q”继续" %name
+      cv2.waitKey(0)#waitKey后显示图像
+      cv2.destroyAllWindows()  
       flag="wait"
       os.system("clear")
       print"{0:=^30}".format("=")
