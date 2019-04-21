@@ -60,8 +60,8 @@ class put_chinese_text(object):
         pen.y = y_pos << 6
 
         hscale = 1.0
-        matrix = freetype.Matrix(int(hscale)*0x10000L, int(0.2*0x10000L),\
-                                 int(0.0*0x10000L), int(1.1*0x10000L))
+        matrix = freetype.Matrix(int(hscale)*0x10000l, int(0.2*0x10000l),\
+                                 int(0.0*0x10000l), int(1.1*0x10000l))
         cur_pen = freetype.Vector()
         pen_translate = freetype.Vector()
 

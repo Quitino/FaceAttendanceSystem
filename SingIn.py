@@ -4,12 +4,12 @@ import cv2
 import os
 import datetime
 import time
-from ft2 import put_chinese_text
+#from ft2 import put_chinese_text
 
 print("欢迎使用人脸签到系统")
 video_capture = cv2.VideoCapture(1)# 摄像头
-print"摄像头读取完毕"
-path ="face_data"# 在同级目录下的face_data文件中放需要被识别出的人物图
+print("摄像头读取完毕")
+path ="images"# 在同级目录下的face_data文件中放需要被识别出的人物图
 total_image=[]
 total_image_name=[]
 total_face_encoding=[]
@@ -26,7 +26,7 @@ def loadface():# 加载图片函数
   del time_of_sing_in[:]
   for fn in os.listdir(path): #fn 表示的是文件名
       num+=1
-      print "正在读取第%d个人脸数据\n" % num
+      print ("正在读取第%d个人脸数据\n" % num)
       total_face_encoding.append(face_recognition.face_encodings(face_recognition.load_image_file(path+"/"+fn))[0])
       fn=fn[:(len(fn)-4)]#截取图片名（这里应该把face_data文件中的图片名命名为为人物名）
       total_image_name.append(fn)#图片名字列表
@@ -121,8 +121,8 @@ while True:
   else:
       continue
       #putText无法显示中文
-      #font = cv2.FONT_HERSHEY_DUPLEX
-      #cv2.putText(frame, name, (left + 6, bottom - 6), font, 0.5, (255, 255, 255), 1)
+      font = cv2.FONT_HERSHEY_DUPLEX
+      cv2.putText(frame, name, (left + 6, bottom - 6), font, 0.5, (255, 255, 255), 1)
   # 显示结果图像
   if name=="Unknown":
       print "未知人脸，请按回车重试"
