@@ -7,7 +7,7 @@
 
 ## freetype install
 
-[下载链接](https://download.savannah.gnu.org/releases/freetype/)选在下载'freetype-2.10.0.tar.gz'即可。X 这是库安装，有误但还是记录一下吧。
+[下载链接](https://download.savannah.gnu.org/releases/freetype/)选择下载'freetype-2.10.0.tar.gz'即可。X 这是库安装，有误但还是记录一下吧。
 sudo  pip3 install  freetype-py
 
 
